@@ -41,7 +41,7 @@
 -- TODO: What is the best option: One xmake.lua file for each target (ios, android, test, macos, windows, linux)?
 --   |- In original ezored project i have one CMakeLists.txt for each file
 
--- TODO: Need pass parameters from outise (python call) to this lua file
+-- TODO: Need pass parameters from outise (python call) to this lua file (xmake.lua)
 
 -- TODO: How to build for Macos Catalyst?
 --   |- Example: https://github.com/ezored/ezored/blob/main/files/config/target_ios.py#L51-L58
