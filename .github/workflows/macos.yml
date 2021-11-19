@@ -1,0 +1,49 @@
+name: Build - macOS
+
+on: [push]
+
+jobs:
+  build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { name: "Latest macOS", os: macos-latest, target: "macos" }
+        python-version: [3.7]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Upgrade PIP
+        run: python -m pip install --upgrade pip setuptools wheel
+
+      - name: Display Python version
+        run: python --version
+
+      - name: Display PIP version
+        run: pip --version
+
+      - name: Install python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: "2.5.9"
+
+      - name: Build
+        run: |
+          make build-macosx
+
+      - name: Save
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifact-${{ matrix.config.target }}
+          path: build
